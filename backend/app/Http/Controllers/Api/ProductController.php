@@ -43,6 +43,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
+            'code' => ['required', 'string', 'max:50', 'unique:products,code'],
             'name' => ['required', 'string', 'max:150'],
             'description' => ['nullable', 'string'],
             'gender' => ['required', 'in:M,F,U'],
@@ -62,6 +63,7 @@ class ProductController extends Controller
 
         $product = Product::create([
             'category_id' => $validated['category_id'],
+            'code' => $validated['code'],
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
             'gender' => $validated['gender'],
@@ -90,6 +92,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
+            'code' => ['required', 'string', 'max:50', 'unique:products,code,' . $product->id],
             'name' => ['required', 'string', 'max:150'],
             'description' => ['nullable', 'string'],
             'gender' => ['required', 'in:M,F,U'],
@@ -113,6 +116,7 @@ class ProductController extends Controller
 
         $product->update([
             'category_id' => $validated['category_id'],
+            'code' => $validated['code'],
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
             'gender' => $validated['gender'],
